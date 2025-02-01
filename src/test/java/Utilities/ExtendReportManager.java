@@ -30,19 +30,23 @@ public class ExtendReportManager implements ITestListener {
     	
     	String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
     	repName = "Test-Report-" + timeStamp + ".html";
+    	
+    	sparkReporter = new ExtentSparkReporter(".\\reports\\" + repName);
         // Specify the path of the report
     
-        String reportPath = "C:\\Users\\HP\\eclipse-workspace\\WebsiteTest\\reports\\myReport.html";
-        sparkReporter = new ExtentSparkReporter(reportPath + repName);
+//        String reportPath = "C:\\Users\\HP\\eclipse-workspace\\WebsiteTest\\reports\\myReport.html";
+//        sparkReporter = new ExtentSparkReporter(reportPath + repName);
+    	
+    	
 
         // Set configurations for the report
         sparkReporter.config().setDocumentTitle("Automation Report");  // Set document title
         sparkReporter.config().setReportName("Functional Testing");    // Set report name
-        sparkReporter.config().setTheme(Theme.STANDARD);                    // Set the theme to dark
+        sparkReporter.config().setTheme(Theme.DARK);                    // Set the theme to dark
 
-        // Initialize ExtentReports and attach the reporter
-        extent = new ExtentReports();
-        extent.attachReporter(sparkReporter);
+																																																														        // Initialize ExtentReports and attach the reporter
+																																																														        extent = new ExtentReports();
+																																																														        extent.attachReporter(sparkReporter);
 
         // Set system information (optional)
         extent.setSystemInfo("Application", "Testing");
@@ -104,19 +108,25 @@ public class ExtendReportManager implements ITestListener {
 
     // This method is called after all tests are finished
     public void onFinish(ITestContext context) {
-        extent.flush();  // Write the report to the file
+        extent.flush(); // Write the report to the file
+
+        // Correct the path
+       
+        //String pathOfExtentReport = "C:\\Users\\HP\\eclipse-workspace\\WebsiteTest\\reports\\" + repName;
         
-        String pathOfExtentReport = System.getProperty("C:\\Users\\HP\\eclipse-workspace\\WebsiteTest\\reports")+"\\reports\\"+repName;
+        String pathOfExtentReport = System.getProperty("user.dir")+"\\reports\\"+repName;
+        
         File extentReport = new File(pathOfExtentReport);
-        
-        
-        try {
-        	Desktop.getDesktop().browse(extentReport.toURI());
-        	
-        }catch(IOException e) {
-        	e.printStackTrace();
-        	
+
+        // Ensure the report exists before opening
+       // if (extentReport.exists()) {
+            try {
+                Desktop.getDesktop().browse(extentReport.toURI());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    }
+    
+
 
 }

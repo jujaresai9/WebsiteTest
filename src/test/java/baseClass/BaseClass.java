@@ -67,7 +67,7 @@ public Properties p;
 		 TakesScreenshot takesScreenshot = (TakesScreenshot)driver;
 		 File sourceFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
 		 
-		 String targetFilePath = System.getProperty("C:\\Users\\HP\\eclipse-workspace\\WebsiteTest\\Screenshots")+tname+"_"+".png";
+		 String targetFilePath = System.getProperty("user.dir")+tname+"_"+".png";
 		 File targetFile = new File(targetFilePath);
 		 
 		 sourceFile.renameTo(targetFile);
